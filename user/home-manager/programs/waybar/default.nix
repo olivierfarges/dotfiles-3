@@ -84,60 +84,60 @@ in
       type = nullOr (listOf (submodule {
         options = {
           layer = mkOption {
-            description = "Decide if the bar is displayed in front (`top`) of the windows or behind (`bottom`)";
             type = enum [ "top" "bottom" ];
+            description = "Decide if the bar is displayed in front (`top`) of the windows or behind (`bottom`)";
             example = "top";
           };
 
           output = mkOption {
+            type = nullOr (either str (listOf str));
             description = ''
               Specifies on which screen this bar will be displayed.
               Exclamation mark(!) can be used to exclude specific output.
             '';
-            type = nullOr (either str (listOf str));
             example = literalExample ''
               [ "DP-1" "!DP-2" "!DP-3" ]
             '';
           };
 
           position = mkOption {
-            description = "Bar position relative to the output";
             type = nullOr (enum [ "top" "bottom" "left" "right" ]);
+            description = "Bar position relative to the output";
             example = "right";
           };
 
           height = mkOption {
-            description = "Height to be used by the bar if possible. Leave blank for a dynamic value";
             type = ints.unsigned;
+            description = "Height to be used by the bar if possible. Leave blank for a dynamic value";
           };
 
           width = mkOption {
-            description = "Width to be used by the bar if possible. Leave blank for a dynamic value";
             type = nullOr ints.unsigned;
+            description = "Width to be used by the bar if possible. Leave blank for a dynamic value";
           };
 
           modules-left = mkOption {
-            description = "Modules that will be displayed on the left";
             type = modules-names-type;
-            default = [ ];
+            default = [];
+            description = "Modules that will be displayed on the left";
             example = literalExample ''
               [ "sway/workspaces" "sway/mode" "wlr/taskbar" ]
             '';
           };
 
           modules-center = mkOption {
-            description = "Modules that will be displayed in the center";
             type = modules-names-type;
-            default = [ ];
+            default = [];
+            description = "Modules that will be displayed in the center";
             example = literalExample ''
               [ "sway/window" ]
             '';
           };
 
           modules-right = mkOption {
-            description = "Modules that will be displayed on the right";
             type = modules-names-type;
-            default = [ ];
+            default = [];
+            description = "Modules that will be displayed on the right";
             example = literalExample ''
               [ "mpd" "custom/mymodule#with-css-id" "temperature" ]
             '';
@@ -146,22 +146,22 @@ in
           modules = modules-options;
 
           margin = mkOption {
-            description = "Margins value using the CSS format without units";
             type = str;
+            description = "Margins value using the CSS format without units";
             example = "20 5";
           };
 
           inherit (margins) margin-top margin-left margin-bottom margin-right;
 
           name = mkOption {
-            description = "Optional name added as a CSS class, for styling multiple waybars";
             type = str;
+            description = "Optional name added as a CSS class, for styling multiple waybars";
             example = "waybar-1";
           };
 
           gtk-layer-shell = mkOption {
-            description = "Option to disable the use of gtk-layer-shell for popups";
             type = bool;
+            description = "Option to disable the use of gtk-layer-shell for popups";
           };
         };
       }));
