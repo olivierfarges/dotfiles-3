@@ -238,8 +238,8 @@ in
       # Inspired by https://github.com/NixOS/nixpkgs/pull/89781
       writePrettyJSON = name: x:
         pkgs.runCommandNoCCLocal name { } ''
-        echo '${builtins.toJSON x}' | ${pkgs.jq}/bin/jq . > $out
-      '';
+          echo '${builtins.toJSON x}' | ${pkgs.jq}/bin/jq . > $out
+        '';
 
       configSource = let
         # Removes nulls because Waybar ignores them for most values
