@@ -45,12 +45,12 @@ let
         type = nullOr (either str (listOf str));
         default = null;
         example = literalExample ''
-              [ "DP-1" "!DP-2" "!DP-3" ]
-            '';
+          [ "DP-1" "!DP-2" "!DP-3" ]
+        '';
         description = ''
-              Specifies on which screen this bar will be displayed.
-              Exclamation mark(!) can be used to exclude specific output.
-            '';
+          Specifies on which screen this bar will be displayed.
+          Exclamation mark(!) can be used to exclude specific output.
+        '';
       };
 
       position = mkOption {
@@ -77,8 +77,8 @@ let
         default = null;
         description = "Modules that will be displayed on the left";
         example = literalExample ''
-              [ "sway/workspaces" "sway/mode" "wlr/taskbar" ]
-            '';
+          [ "sway/workspaces" "sway/mode" "wlr/taskbar" ]
+        '';
       };
 
       modules-center = mkOption {
@@ -86,8 +86,8 @@ let
         default = null;
         description = "Modules that will be displayed in the center";
         example = literalExample ''
-              [ "sway/window" ]
-            '';
+          [ "sway/window" ]
+        '';
       };
 
       modules-right = mkOption {
@@ -95,8 +95,8 @@ let
         default = null;
         description = "Modules that will be displayed on the right";
         example = literalExample ''
-              [ "mpd" "custom/mymodule#with-css-id" "temperature" ]
-            '';
+          [ "mpd" "custom/mymodule#with-css-id" "temperature" ]
+        '';
       };
 
       # modules = modules-options;
@@ -119,10 +119,10 @@ let
                 interval = 10;
                 # You may be interested in using symlinkJoin to merge all scripts in one derivation
                 # to have them all under one directory structure in the nix store
-                exec = pkgs.writeScriptBin "hello-from-waybar" '''
+                exec = "''${pkgs.writers.writeBashBin "hello-from-waybar" '''
                   #!${"\${pkgs.bash}/bin/bash"}
                   echo "from within waybar"
-                ''';
+                '''}/bin/hello-from-waybar";
               };
             }
           '';
@@ -164,32 +164,39 @@ in
         for supported values.
       '';
       default = [];
-      example = literalExample
-        ''
-          [
-            {
-              layer = "top";
-              position = "top";
-              height = 30;
-              # Specify outputs to restrict to certain outputs, otherwise show on all outputs
-              output = [
-                "eDP-1"
-                "DP-1"
-              ];
-              modules-left = [ "sway/workspaces" "sway/mode" "wlr/taskbar" ];
-              modules-center = [ "sway/window" ];
-              modules-right = [ "mpd" "custom/mymodule#with-css-id" "temperature" ];
-              modules = {
-                "sway/workspaces" = {
-
-                };
-                "custom/mymodule" = {
-
-                };
+      example = literalExample ''
+        [
+          {
+            layer = "top";
+            position = "top";
+            height = 30;
+            # Specify outputs to restrict to certain outputs, otherwise show on all outputs
+            output = [
+              "eDP-1"
+              "DP-1"
+            ];
+            modules-left = [ "sway/workspaces" "sway/mode" "wlr/taskbar" ];
+            modules-center = [ "sway/window" "custom/hello-from-waybar" ];
+            modules-right = [ "mpd" "custom/mymodule#with-css-id" "temperature" ];
+            modules = {
+              "sway/workspaces" = {
+                disable-scroll = true;
+                all-outputs = true;
               };
-            }
-          ]
-        '';
+              "custom/hello-from-waybar" = {
+                format = "hello {}";
+                max-length = 40;
+                interval = "once";
+                # You may be interested in using symlinkJoin to merge all scripts in one derivation
+                # to have them all under one directory structure in the nix store
+                exec = "''${pkgs.writers.writeBashBin "hello-from-waybar" '''
+                  echo "from within waybar"
+                '''}/bin/hello-from-waybar";
+              };
+            };
+          }
+        ]
+      '';
       # maybe-todo: improve type when https://github.com/NixOS/nixpkgs/pull/75584 is merged
       type = listOf waybarBarConfig;
     };
