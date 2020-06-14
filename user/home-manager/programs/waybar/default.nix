@@ -250,11 +250,8 @@ in
         makeConfiguration = configuration: let
           # The "modules" option is not valid in the JSON as its descendants have to live at the top-level
           settingsWithoutModules = filterAttrs (n: _: n != "modules") configuration;
-          settingsModules =
-            if cfg.settings ? modules
-            then cfg.settings.modules
-            else { };
-        in settingsWithoutModules // (removeNulls settingsModules);
+          settingsModules = optionalAttrs (configuration.modules != { }) configuration.modules;
+        in removeNulls (settingsWithoutModules // settingsModules);
         # The clean list of configurations
         finalConfiguration = map makeConfiguration cfg.settings;
       in writePrettyJSON "waybar-config.json" finalConfiguration;
@@ -277,7 +274,7 @@ in
             allModules =
               concatMap (x: let v = settings."modules-${x}"; in if v != null then v else []) ["left" "center" "right"];
             nonDefaultModules = subtractLists defaultModuleNames allModules;
-            declaredModules = if settings.modules != null then attrNames settings.modules else [];
+            declaredModules = attrNames settings.modules;
             # Modules declared in `modules` but not referenced in `modules-{left,center,right}`
             unreferencedModules = subtractLists nonDefaultModules declaredModules;
             # Modules referenced in `modules-{left,center,right}` but not declared in `modules`
