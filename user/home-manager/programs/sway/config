@@ -3,50 +3,40 @@
 #
 # Variables
 #
-set $CONFIG_DIR "$HOME/.config/sway"
-set $SCRIPTS    "$HOME/scripts"
+# set $CONFIG_DIR "$HOME/.config/sway"
+# set $SCRIPTS    "$HOME/scripts"
 
-set $OUTPUT-LAPTOP 'eDP-1'
+# set $OUTPUT-LAPTOP 'eDP-1'
 
-set $mod   Mod4
-set $left  h
-set $down  j
-set $up    k
-set $right l
+# set $mod   Mod4
+# set $left  h
+# set $down  j
+# set $up    k
+# set $right l
 
-set $term          'alacritty --working-directory ~'
-set $floating-term "alacritty --class 'floating-term' --working-directory ~"
-set $quake-term    "alacritty --class 'quake-term' --working-directory ~"
-set $menu          'xfce4-appfinder --replace'
-set $menu-wofi     'wofi --fork --show drun,run'
-#set $menu-wofi     'rofi -show combi -combi-modi drun,run'
-#set $menu          'rofi -show combi -show-icons -p "start" -combi-modi drun,run,ssh'
-set $explorer      "alacritty --class 'file-explorer' --title 'ranger' -e ranger ~"
-set $gui-explorer  'nautilus'
-set $browser       'dex ~/.local/share/applications/firefox.desktop'
-set $alt-browser   'qutebrowser'
-set $lock          'swaylock -f -c 0f0f0ff0 -i ~/Pictures/wallpaper/3840x2160.png'
-set $logout        'wlogout'
-set $audiocontrol  'pavucontrol'
+# set $term          'alacritty --working-directory ~'
+# set $floating-term "alacritty --class 'floating-term' --working-directory ~"
+# set $quake-term    "alacritty --class 'quake-term' --working-directory ~"
+# set $menu          'xfce4-appfinder --replace'
+# set $menu-wofi     'wofi --fork --show drun,run'
+# set $explorer      "alacritty --class 'file-explorer' --title 'ranger' -e ranger ~"
+# set $gui-explorer  'nautilus'
+# set $browser       'dex ~/.local/share/applications/firefox.desktop'
+# set $alt-browser   'qutebrowser'
+# set $lock          'swaylock -f -c 0f0f0ff0 -i ~/Pictures/wallpaper/3840x2160.png'
+# set $logout        'wlogout'
+# set $audiocontrol  'pavucontrol'
 
-set $ws1  "1: Browsing"
-set $ws2  "2: School"
-set $ws3  "3: Dev"
-set $ws4  "4: Sysadmin"
-set $ws5  "5: Games"
-set $ws6  "6: Videos"
-set $ws7  "7: social"
-set $ws8  "8:"
-set $ws9  "9:"
-set $ws10 "10:"
-set $ws11 "11:"
-set $ws12 "12:"
-set $ws13 "13:"
-set $ws14 "14:"
-set $ws15 "15:"
-set $ws16 "16:"
-set $ws17 "17:"
-
+# set $ws1  "1: Browsing"
+# set $ws2  "2: School"
+# set $ws3  "3: Dev"
+# set $ws4  "4: Sysadmin"
+# set $ws5  "5: Games"
+# set $ws6  "6: Videos"
+# set $ws7  "7: social"
+# set $ws8  "8:"
+# set $ws9  "9:"
+# set $ws10 "10:"
 
 #
 # Basic settings
@@ -393,25 +383,3 @@ mode "execute/focus" {
     bindsym Escape mode default
 }
 bindsym $mod+x mode "execute/focus"
-
-bar {
-    position top
-    mode dock
-
-    id secondary-top
-    output $OUTPUT-HOME-DELL-LEFT
-    output $OUTPUT-HOME-DELL-RIGHT
-    tray_output none
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
-
-    colors {
-        statusline #ffffff
-        background #323232
-        # <border> <background> <text>
-        #inactive_workspace #32323200 #32323200 #5c5c5c
-        inactive_workspace #000000 #5c5c5c #ffffff
-    }
-}

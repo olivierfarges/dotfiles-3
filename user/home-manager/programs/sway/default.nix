@@ -1,18 +1,40 @@
 { config, lib, pkgs, ... }:
 
+let
+in
 {
   home.packages = with pkgs; [ sway swayidle ];
-  xdg.configFile."sway/config".source = ./config;
-  xdg.configFile."sway/window-rules.d".source = ./window-rules.d;
-  xdg.configFile."sway/config.d".source = ./config.d;
 
-  systemd.user.targets.sway-session = {
-    description = "sway compositor session";
-    documentation = "man:systemd.special(7)";
-    bindsTo = [ "graphical-session.target" ];
-    wants = [ "graphical-session-pre.target" ];
-    after = [ "graphical-session-pre.target" ];
-  };
+  wayland.windowManager.sway = {
+    enable = true;
+    # The package is the one from the nixpkgs-wayland overlay
+    # package = pkgs.sway;
+
+    # For the sway-session.target
+    systemdIntegration = true;
+
+    wrapperFeatures = {
+      # Fixes GTK applications under Sway
+      gtk = true;
+      # To run Sway with dbus-run-session
+      base = true;
+    };
+
+    xwayland = true;
+
+    extraSessionCommands = ''
+      export SDL_VIDEODRIVER=wayland
+      # needs qt5.qtwayland in systemPackages
+      export QT_QPA_PLATFORM=wayland
+      export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+      # Fix for some Java AWT applications (e.g. Android Studio),
+      # use this if they aren't displayed properly:
+      export _JAVA_AWT_WM_NONREPARENTING=1
+
+      export XDG_CURRENT_DESKTOP=sway
+    '';
+  } // (pkgs.callPackage ./config.nix { inherit config; });
+
   # Idle service
   systemd.user.services.sway-idle =
     let
