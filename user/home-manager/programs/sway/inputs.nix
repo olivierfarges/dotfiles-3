@@ -1,6 +1,6 @@
 let
-  defaultRepeatRate = 30;
-  defaultRepeatDelay = 200;
+  defaultRepeatRate = "30";
+  defaultRepeatDelay = "200";
 in
 {
   # thiccpad touch pad
